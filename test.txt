@@ -1,0 +1,73 @@
+# Description
+
+You are given a solution that contains a Blazor Server Side Web App with a Customer model class. Write the admin panel for the “Customer” model.
+
+You have to develop 
+
+Required: 
+- Configure application to use MongoDB (Community Edition)
+- A grid with all customers with server side paging
+- CRUD Operations on “Customer” model
+- Expose all CRUD Operations as an API 
+
+Extra (nice to have) 
+- Add authentication with the provided demo Identity Server 4 https://demo.identityserver.io/
+- Protect your API with authentication with the provided demo Identity Server above
+- Unit & Integration Tests
+
+## Requirements 
+
+- C#
+- .NET Core 
+- Blazor
+
+Optional
+- Bootstrap 
+
+
+
+db.Customers.insertMany([
+ {
+        "id": "5e1f292bd969d06aa643db1a",
+        "companyName": "EpsilonNet",
+        "contactName": "Petsinas",
+        "address": "Iokastis",
+        "city": "Thessaloniki",
+        "region": "Macedonia",
+        "postalCode": 65433,
+        "country": "Greece",
+        "phone": "6934500742"
+    },
+    {
+        "id": "5e1f292bd969d06aa643db1b",
+        "companyName": "EpsilonNet2",
+        "contactName": "Petsinas2",
+        "address": "Iokastis2",
+        "city": "Thessaloniki2",
+        "region": "Macedonia2",
+        "postalCode": 654332,
+        "country": "Greece2",
+        "phone": "69345007422"
+    },
+    {
+        "id": "5e1f389707833cb2159297e9",
+        "companyName": "EpsilonNet3",
+        "contactName": "Petsinas3",
+        "address": "Iokastis3",
+        "city": "Thessaloniki3",
+        "region": "Macedonia3",
+        "postalCode": 654333,
+        "country": "Greece3",
+        "phone": "69345007423"
+    },
+    {
+        "id": "5e1f389707833cb2159297ea",
+        "companyName": "EpsilonNet4",
+        "contactName": "Petsinas4",
+        "address": "Iokastis4",
+        "city": "Thessaloniki4",
+        "region": "Macedonia4",
+        "postalCode": 654334,
+        "country": "Greece4",
+        "phone": "69345007424"
+    }])
