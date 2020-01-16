@@ -1,13 +1,15 @@
 ﻿@page "/fetchdata"
-
+@using BlazorApp.Services
 @using BlazorApp.Data
-@inject WeatherForecastService ForecastService
+@using BlazorApp.Models
 
-<h1>Weather forecast</h1>
+@inject CustomerService Custom
+
+<h1>Weather forecas@t</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@if (Customers == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -16,20 +18,20 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>ContactName</th>
+                <th>Address</th>
+                <th>Id</th>
+                <th>City</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var customer in Customers)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@customer.ContactName</td>
+                    <td>@customer.Address</td>
+                    <td>@customer.Id</td>
+                    <td>@customer.City</td>
                 </tr>
             }
         </tbody>
@@ -37,10 +39,11 @@ else
 }
 
 @code {
-    private WeatherForecast[] forecasts;
-
+    //private WeatherForecast[] forecasts;
+    private IEnumerable<Customer> Customers;
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        Customers = Custom.Get();
+        //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     }
 }
