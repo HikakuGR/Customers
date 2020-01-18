@@ -2,7 +2,7 @@
 @using BlazorApp.Services
 @using BlazorApp.Models
 
-@inject CustomerService Custom
+@inject CustomerService CustomerService
 
 <h1>Customers</h1>
 
@@ -58,7 +58,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Customers = Custom.Get();
+        Customers = CustomerService.Get();
         //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     }
 }

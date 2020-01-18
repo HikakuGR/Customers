@@ -1,0 +1,30 @@
+﻿@page "/grid"
+@using BlazorApp.Services
+@using BlazorApp.Models
+@inject CustomerService CustomerService
+<TelerikGrid Data="@Customers" Height="400px"
+             Pageable="true" Sortable="true" Groupable="true"
+             FilterMode="Telerik.Blazor.GridFilterMode.FilterRow"
+             Resizable="true" Reorderable="true">
+    <GridColumns>
+        @*<GridColumn Field="@(nameof(Customer.Id))" Width="120px" />*@
+        <GridColumn Field="@(nameof(Customer.ContactName))" Title="ContactName" Groupable="false" />
+        <GridColumn Field="@(nameof(Customer.CompanyName))" Title="CompanyName" />
+        <GridColumn Field="@(nameof(Customer.Address))" Title="Address" />
+        <GridColumn Field="@(nameof(Customer.City))" Title="City" />
+        <GridColumn Field="@(nameof(Customer.Country))" Title="Country" />
+        <GridColumn Field="@(nameof(Customer.Phone))" Title="Phone" />
+        <GridColumn Field="@(nameof(Customer.PostalCode))" Title="PostalCode" />
+        <GridColumn Field="@(nameof(Customer.Region))" Title="Region" />
+    </GridColumns>
+</TelerikGrid>
+
+@code {
+    private IEnumerable<Customer> Customers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Customers = CustomerService.Get();
+        //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }
+}
