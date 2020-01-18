@@ -1,0 +1,64 @@
+﻿@using BlazorApp.Models
+@page "/DeleteCustomer/{customerID}"
+@using BlazorApp.Services
+@inject CustomerService CustomService
+@inject NavigationManager NavigationManager
+@*@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper*@
+<h2>Delete</h2>
+<h3>Are you sure you want to delete employee with id : @customerID</h3>
+<br />
+<div class="col-md-4">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ContactName</th>
+                <th>Address</th>
+                <th>CompanyName</th>
+                <th>Country</th>
+                <th>Phone</th>
+                <th>PostalCode</th>
+                <th>Region</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@customer.ContactName</td>
+                <td>@customer.Address</td>
+                <td>@customer.CompanyName</td>
+                <td>@customer.Country</td>
+                <td>@customer.Phone</td>
+                <td>@customer.PostalCode</td>
+                <td>@customer.Region</td>
+                <td>@customer.City</td>
+            </tr>
+        </tbody>
+    </table>
+        <div class="form-group">
+            <input type="submit" value="Delete" @onclick=Delete class="btn btn-danger" />
+            @*<input type="submit" value="Cancel" onclick="@cancel" class="btn" />*@
+        </div>
+</div>
+@code {
+    [Parameter]
+    public string customerID { get; set; }
+
+    Customer customer = new Customer();
+
+    protected override async Task OnInitializedAsync()
+    {
+        customer = CustomService.Get(customerID);
+        //    emp = await Http.GetJsonAsync<Employee>
+        //    ("/api/Employee/Details/" + Convert.ToInt32(empID));
+    }
+    protected async Task Delete()
+    {
+        CustomService.Remove(customerID);
+        //await Http.DeleteAsync("api/Employee/Delete/" + Convert.ToInt32(empID));
+        NavigationManager.NavigateTo("/fetchdata");
+    }
+    void cancel()
+    {
+        //UriHelper.NavigateTo("/fetchemployee");
+    }
+}

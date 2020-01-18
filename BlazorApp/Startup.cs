@@ -40,9 +40,10 @@ namespace BlazorApp
             services.AddRazorPages();            
             
             services.AddServerSideBlazor();
-            
+
+            services.AddHttpClient();
             //services.AddSingleton<WeatherForecastService>();
-            
+
             services.AddControllers();
         }
 

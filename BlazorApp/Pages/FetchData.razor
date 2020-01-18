@@ -1,13 +1,12 @@
 ﻿@page "/fetchdata"
 @using BlazorApp.Services
-@using BlazorApp.Data
 @using BlazorApp.Models
 
 @inject CustomerService Custom
 
-<h1>Weather forecas@t</h1>
+<h1>Customers</h1>
 
-<p>This component demonstrates fetching data from a service.</p>
+
 
 @if (Customers == null)
 {
@@ -15,24 +14,39 @@
 }
 else
 {
+    <p>
+        <a href="/CreateCustomer">Create New</a>
+    </p>
     <table class="table">
         <thead>
             <tr>
                 <th>ContactName</th>
                 <th>Address</th>
-                <th>Id</th>
-                <th>City</th>
+                <th>CompanyName</th>
+                <th>Country</th>
+                <th>Phone</th>
+                <th>PostalCode</th>
+                <th>Region</th>
+                <th>City</th>                
             </tr>
         </thead>
         <tbody>
             @foreach (var customer in Customers)
             {
-                <tr>
-                    <td>@customer.ContactName</td>
-                    <td>@customer.Address</td>
-                    <td>@customer.Id</td>
-                    <td>@customer.City</td>
-                </tr>
+            <tr>
+                <td>@customer.ContactName</td>
+                <td>@customer.Address</td>
+                <td>@customer.CompanyName</td>
+                <td>@customer.Country</td>
+                <td>@customer.Phone</td>
+                <td>@customer.PostalCode</td>
+                <td>@customer.Region</td>
+                <td>@customer.City</td>
+                <td>
+                    <a href='/EditCustomer/@customer.Id'>Edit</a>  
+                    <a href='/DeleteCustomer/@customer.Id'>Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -41,6 +55,7 @@ else
 @code {
     //private WeatherForecast[] forecasts;
     private IEnumerable<Customer> Customers;
+
     protected override async Task OnInitializedAsync()
     {
         Customers = Custom.Get();

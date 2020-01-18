@@ -27,47 +27,43 @@ Optional
 
 
 db.Customers.insertMany([
- {
-        "id": "5e1f292bd969d06aa643db1a",
-        "companyName": "EpsilonNet",
-        "contactName": "Petsinas",
-        "address": "Iokastis",
-        "city": "Thessaloniki",
-        "region": "Macedonia",
-        "postalCode": 65433,
-        "country": "Greece",
-        "phone": "6934500742"
+ {        
+        "CompanyName": "EpsilonNet",
+        "ContactName": "Petsinas",
+        "Address": "Iokastis",
+        "City": "Thessaloniki",
+        "Region": "Macedonia",
+        "PostalCode": "65433",
+        "Country": "Greece",
+        "Phone": "6934500742"
     },
-    {
-        "id": "5e1f292bd969d06aa643db1b",
-        "companyName": "EpsilonNet2",
-        "contactName": "Petsinas2",
-        "address": "Iokastis2",
-        "city": "Thessaloniki2",
-        "region": "Macedonia2",
-        "postalCode": 654332,
-        "country": "Greece2",
-        "phone": "69345007422"
+    {        
+        "CompanyName": "EpsilonNet2",
+        "ContactName": "Petsinas2",
+        "Address": "Iokastis2",
+        "City": "Thessaloniki2",
+        "Region": "Macedonia2",
+        "PostalCode": "654332",
+        "Country": "Greece2",
+        "Phone": "69345007422"
     },
-    {
-        "id": "5e1f389707833cb2159297e9",
-        "companyName": "EpsilonNet3",
-        "contactName": "Petsinas3",
-        "address": "Iokastis3",
-        "city": "Thessaloniki3",
-        "region": "Macedonia3",
-        "postalCode": 654333,
-        "country": "Greece3",
-        "phone": "69345007423"
+    {        
+        "CompanyName": "EpsilonNet3",
+        "ContactName": "Petsinas3",
+        "Address": "Iokastis3",
+        "City": "Thessaloniki3",
+        "Region": "Macedonia3",
+        "PostalCode": "654333",
+        "Country": "Greece3",
+        "Phone": "69345007423"
     },
-    {
-        "id": "5e1f389707833cb2159297ea",
-        "companyName": "EpsilonNet4",
-        "contactName": "Petsinas4",
-        "address": "Iokastis4",
-        "city": "Thessaloniki4",
-        "region": "Macedonia4",
-        "postalCode": 654334,
-        "country": "Greece4",
-        "phone": "69345007424"
+    {        
+        "CompanyName": "EpsilonNet4",
+        "ContactName": "Petsinas4",
+        "Address": "Iokastis4",
+        "City": "Thessaloniki4",
+        "Region": "Macedonia4",
+        "PostalCode": "654334",
+        "Country": "Greece4",
+        "Phone": "69345007424"
     }])
