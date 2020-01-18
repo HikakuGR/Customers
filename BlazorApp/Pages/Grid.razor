@@ -1,8 +1,10 @@
 ﻿@page "/grid"
 @using BlazorApp.Services
 @using BlazorApp.Models
+
 @inject CustomerService CustomerService
-<TelerikGrid Data="@Customers" Height="400px"
+
+<TelerikGrid Data="@Customers" Height="400px" EditMode="@GridEditMode.Inline"
              Pageable="true" Sortable="true" Groupable="true"
              FilterMode="Telerik.Blazor.GridFilterMode.FilterRow"
              Resizable="true" Reorderable="true">
