@@ -15,4 +15,13 @@
     <PackageReference Include="Telerik.UI.for.Blazor.Trial" Version="2.6.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Telerik.Blazor">
+      <HintPath>..\TelerikLib\Telerik.Blazor.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.DataSource">
+      <HintPath>..\TelerikLib\Telerik.DataSource.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

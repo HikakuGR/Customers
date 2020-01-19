@@ -22,11 +22,20 @@
 </TelerikGrid>
 
 @code {
-    private IEnumerable<Customer> Customers;
+    //private IEnumerable<Customer> Customers;
 
     protected override async Task OnInitializedAsync()
     {
-        Customers = CustomerService.Get();
+        //Customers = CustomerService.Get();
         //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+
+    }
+
+    List<Customer> Customers;
+    int Total;
+    protected void ReadItems(GridReadEventArgs args)
+    {
+        
+        Customers = CustomerService.GetPaged(args.Request.Page - 1, args.Request.PageSize, out Total);
     }
 }

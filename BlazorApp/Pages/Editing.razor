@@ -1,11 +1,12 @@
-﻿@page "/Editing"
+﻿@page "/"
 @using BlazorApp.Services
 @using BlazorApp.Models
 
 @inject CustomerService CustomerService
 Editing is cancelled for the first two records. There is a deliberate delay in the data source operations in this example to mimic real life delays and to showcase the async nature of the calls.
 
-<TelerikGrid Data=@Customers EditMode="@GridEditMode.Inline" Pageable="true" Height="400px"
+<TelerikGrid Data=@Customers EditMode="@GridEditMode.Inline" Pageable="true" Height="500px" 
+             TotalCount="Total" PageSize="5" OnRead="@ReadItems"
              OnUpdate="@UpdateHandler" OnEdit="@EditHandler" OnDelete="@DeleteHandler" OnCreate="@CreateHandler" OnCancel="@CancelHandler">
     <GridToolBar>
         <GridCommandButton Command="Add" Icon="add">Add Employee</GridCommandButton>
@@ -31,12 +32,22 @@ Editing is cancelled for the first two records. There is a deliberate delay in t
 @logger
 
 @code {
-    private List<Customer> Customers;
 
-    protected override async Task OnInitializedAsync()
+
+    //protected override async Task OnInitializedAsync()
+    //{
+
+    //    Customers = CustomerService.Get();
+    //    //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    //}
+
+    List<Customer> Customers;
+    int Total;
+    protected void ReadItems(GridReadEventArgs args)
     {
-        Customers = CustomerService.Get();
-        //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+
+        Customers = CustomerService.GetPaged(args.Request.Page - 1, args.Request.PageSize, out Total);
+        StateHasChanged();
     }
 
     public async Task EditHandler(GridCommandEventArgs args)
@@ -46,7 +57,7 @@ Editing is cancelled for the first two records. There is a deliberate delay in t
         Customer item = (Customer)args.Item;
 
         //await Task.Delay(1000); //simulate actual long running async operation
-                                //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
+        //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
 
         //prevent opening for edit based on condition
         //if (item.Id < 3)
@@ -105,7 +116,7 @@ Editing is cancelled for the first two records. There is a deliberate delay in t
         //myContext.SaveChanges();
 
         //await Task.Delay(2000); //simulate actual long running async operation
-                                //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
+        //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
 
         //item.Id = Customers.Count + 1;
         Customers.Insert(0, item);
@@ -126,7 +137,7 @@ Editing is cancelled for the first two records. There is a deliberate delay in t
         //}
 
         //await Task.Delay(2000); //simulate actual long running async operation
-                                //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
+        //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
     }
 
     MarkupString logger;
