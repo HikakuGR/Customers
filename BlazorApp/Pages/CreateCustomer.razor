@@ -2,12 +2,9 @@
 @page "/CreateCustomer"
 @using BlazorApp.Services
 @inject CustomerService CustomerService
-@*@inject HttpClient Http*@
-@*@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper*@
 @inject NavigationManager NavigationManager
+
 <h1>Create Customer</h1>
-
-
 <div class="row">
     <div class="col-md-4">
         <form>
@@ -55,13 +52,13 @@
 
     protected async Task CreateEmployee()
     {
-        
+
         CustomerService.Create(customer);
-        //await Task.Delay(2000);
-        //NavigationManager.NavigateTo("/",true);        
+        
+        NavigationManager.NavigateTo("/CustomersTable", true);
     }
     void cancel()
     {
-        NavigationManager.NavigateTo("/",true);
+        NavigationManager.NavigateTo("/CustomersTable",true);
     }
 }

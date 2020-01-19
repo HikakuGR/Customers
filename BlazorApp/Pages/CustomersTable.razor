@@ -1,4 +1,4 @@
-﻿@page "/fetchdata"
+﻿@page "/CustomersTable"
 @using BlazorApp.Services
 @using BlazorApp.Models
 
@@ -53,12 +53,11 @@ else
 }
 
 @code {
-    //private WeatherForecast[] forecasts;
+   
     private IEnumerable<Customer> Customers;
 
     protected override async Task OnInitializedAsync()
     {
-        Customers = CustomerService.Get();
-        //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        Customers = CustomerService.Get();        
     }
 }

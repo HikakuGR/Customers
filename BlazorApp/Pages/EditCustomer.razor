@@ -3,8 +3,7 @@
 @using BlazorApp.Services
 @inject CustomerService CustomService
 @inject NavigationManager NavigationManager
-@*@inject HttpClient Http*@
-@*@inject Microsoft.AspNetCore.Blazor.Services.IUriHelper UriHelper*@
+
 
 <h1>Edit Customer</h1>
 
@@ -62,7 +61,6 @@
 
     protected override void OnInitialized()
     {
-        //emp = await Http.GetJsonAsync<Employee>("/api/Employee/Details/" + Convert.ToInt32(empID));
         customer = CustomService.Get(customerId);
     }
 
@@ -71,12 +69,12 @@
 
 
         CustomService.Update(customerId, customer);
-        //await Http.SendJsonAsync(HttpMethod.Put, "api/Employee/Edit", emp);
-        NavigationManager.NavigateTo("/fetchdata",true);
-        //UriHelper.NavigateTo("/fetchemployee");
+        
+        NavigationManager.NavigateTo("/CustomersTable",true);
+        
     }
     void cancel()
     {
-        NavigationManager.NavigateTo("/fetchdata",true);
+        NavigationManager.NavigateTo("/CustomersTable",true);
     }
 }
