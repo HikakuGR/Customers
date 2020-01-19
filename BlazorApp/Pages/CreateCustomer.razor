@@ -41,12 +41,13 @@
                 <input asp-for="City" class="form-control" @bind="@customer.City" />
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-default" @onclick=CreateEmployee>Save</button>
-                <button class="btn" @onclick="cancel">Cancel</button>
+                <button type="button" class="btn btn-default" @onclick=CreateEmployee>Save</button>
+                <button class="btn" @onclick="Cancel">Cancel</button>
             </div>
         </form>
     </div>
 </div>
+
 @code {
     Customer customer = new Customer();
 
@@ -55,10 +56,11 @@
 
         CustomerService.Create(customer);
         
-        NavigationManager.NavigateTo("/CustomersTable", true);
+        NavigationManager.NavigateTo("/CustomersTable");
     }
-    void cancel()
+
+    void Cancel()
     {
-        NavigationManager.NavigateTo("/CustomersTable",true);
+        NavigationManager.NavigateTo("/CustomersTable");
     }
 }

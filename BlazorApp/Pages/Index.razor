@@ -6,7 +6,7 @@
 
 <TelerikGrid Data=@Customers EditMode="@GridEditMode.Inline" Pageable="true" Height="500px" 
              TotalCount="Total" PageSize="5" OnRead="@ReadItems"
-             OnUpdate="@UpdateHandler" OnEdit="@EditHandler" OnDelete="@DeleteHandler" OnCreate="@CreateHandler" OnCancel="@CancelHandler">
+             OnUpdate="@UpdateHandler"  OnDelete="@DeleteHandler" OnCreate="@CreateHandler" >
     <GridToolBar>
         <GridCommandButton Command="Add" Icon="add">Create New</GridCommandButton>
     </GridToolBar>
@@ -28,12 +28,12 @@
     </GridColumns>
 </TelerikGrid>
 
-@logger
+
 
 @code {
 
 
-    
+
 
     List<Customer> Customers;
     int Total;
@@ -44,17 +44,11 @@
         StateHasChanged();
     }
 
-    public async Task EditHandler(GridCommandEventArgs args)
-    {
-        AppendToLog("Edit", args);
-
-        Customer item = (Customer)args.Item;
-
-    }
+   
 
     public async Task UpdateHandler(GridCommandEventArgs args)
     {
-        AppendToLog("Update", args);
+
 
         Customer item = (Customer)args.Item;
         CustomerService.Update(item.Id, item);
@@ -63,42 +57,27 @@
 
     public async Task DeleteHandler(GridCommandEventArgs args)
     {
-        AppendToLog("Delete", args);
+
 
         Customer item = (Customer)args.Item;
-        CustomerService.Remove(item.Id);        
+        CustomerService.Remove(item.Id);
         //Customers.Remove(item);
     }
 
     public async Task CreateHandler(GridCommandEventArgs args)
     {
-        AppendToLog("Create", args);
+
 
         Customer item = (Customer)args.Item;
-        CustomerService.Create(item);       
-       
+        CustomerService.Create(item);
+
         //Customers.Insert(0, item);
     }
 
-    public async Task CancelHandler(GridCommandEventArgs args)
-    {
-        AppendToLog("Cancel", args);
-
-        Customer item = (Customer)args.Item;        
-    }
-
-    MarkupString logger;
-    private void AppendToLog(string commandName, GridCommandEventArgs args)
-    {
-        string currAction = string.Format(
-            "<br />Command: <strong>{0}</strong>; is cancelled: <strong>{1}</strong>; is the item new: <strong>{2}</strong>",
-                commandName,
-                args.IsCancelled,
-                args.IsNew
-            );
-        logger = new MarkupString(logger + currAction);
-    }
-
-
     
+
+
+
+
+
 }
