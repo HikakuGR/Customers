@@ -180,6 +180,7 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
     .jsgrid-grid-header {
         text-align: center;
         border-collapse: collapse;
@@ -205,3 +206,4 @@ app {
         background-color: dodgerblue;
         color: white;
     }
+}
