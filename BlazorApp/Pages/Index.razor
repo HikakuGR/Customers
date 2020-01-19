@@ -1,5 +1,178 @@
-﻿@page "/sdssds"
+﻿@page "/"
+@using BlazorApp.Services
+@using BlazorApp.Models
 
-<h1>Hello, world!</h1>
+@inject CustomerService CustomerService
+Editing is cancelled for the first two records. There is a deliberate delay in the data source operations in this example to mimic real life delays and to showcase the async nature of the calls.
 
-Welcome to your new app.
+<TelerikGrid Data=@Customers EditMode="@GridEditMode.Inline" Pageable="true" Height="500px" 
+             TotalCount="Total" PageSize="5" OnRead="@ReadItems"
+             OnUpdate="@UpdateHandler" OnEdit="@EditHandler" OnDelete="@DeleteHandler" OnCreate="@CreateHandler" OnCancel="@CancelHandler">
+    <GridToolBar>
+        <GridCommandButton Command="Add" Icon="add">Create New</GridCommandButton>
+    </GridToolBar>
+    <GridColumns>
+        <GridColumn Field="@(nameof(Customer.ContactName))" Title="ContactName" Groupable="false" />
+        <GridColumn Field="@(nameof(Customer.CompanyName))" Title="CompanyName" />
+        <GridColumn Field="@(nameof(Customer.Address))" Title="Address" />
+        <GridColumn Field="@(nameof(Customer.City))" Title="City" />
+        <GridColumn Field="@(nameof(Customer.Country))" Title="Country" />
+        <GridColumn Field="@(nameof(Customer.Phone))" Title="Phone" />
+        <GridColumn Field="@(nameof(Customer.PostalCode))" Title="PostalCode" />
+        <GridColumn Field="@(nameof(Customer.Region))" Title="Region" />
+        <GridCommandColumn>
+            <GridCommandButton Command="Save" Icon="save" ShowInEdit="true">Update</GridCommandButton>
+            <GridCommandButton Command="Edit" Icon="edit">Edit</GridCommandButton>
+            <GridCommandButton Command="Delete" Icon="delete">Delete</GridCommandButton>
+            <GridCommandButton Command="Cancel" Icon="cancel" ShowInEdit="true">Cancel</GridCommandButton>
+        </GridCommandColumn>
+    </GridColumns>
+</TelerikGrid>
+
+@logger
+
+@code {
+
+
+    //protected override async Task OnInitializedAsync()
+    //{
+
+    //    Customers = CustomerService.Get();
+    //    //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    //}
+
+    List<Customer> Customers;
+    int Total;
+    protected void ReadItems(GridReadEventArgs args)
+    {
+
+        Customers = CustomerService.GetPaged(args.Request.Page - 1, args.Request.PageSize, out Total);
+        StateHasChanged();
+    }
+
+    public async Task EditHandler(GridCommandEventArgs args)
+    {
+        AppendToLog("Edit", args);
+       
+        Customer item = (Customer)args.Item;
+        
+        //await Task.Delay(1000); //simulate actual long running async operation
+        //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
+
+        //prevent opening for edit based on condition
+        //if (item.Id < 3)
+        //{
+        //    args.IsCancelled = true;//the general approach for cancelling an event
+        //}
+    }
+
+    public async Task UpdateHandler(GridCommandEventArgs args)
+    {
+        AppendToLog("Update", args);
+
+        Customer item = (Customer)args.Item;
+        CustomerService.Update(item.Id, item);
+        //perform actual data source operations here
+
+        //if you have a context added through an @inject statement, you could call its SaveChanges() method
+        //myContext.SaveChanges();
+
+        await Task.Delay(2000); //simulate actual long running async operation
+                                //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
+
+        var index = Customers.FindIndex(i => i.Id == item.Id);
+        if (index != -1)
+        {
+            Customers[index] = item;
+        }
+    }
+
+    public async Task DeleteHandler(GridCommandEventArgs args)
+    {
+        AppendToLog("Delete", args);
+
+        Customer item = (Customer)args.Item;
+        CustomerService.Remove(item.Id);
+        //perform actual data source operation here
+
+        //if you have a context added through an @inject statement, you could call its SaveChanges() method
+        //myContext.SaveChanges();
+
+        await Task.Delay(2000); //simulate actual long running async operation
+                                //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
+
+        Customers.Remove(item);
+    }
+
+    public async Task CreateHandler(GridCommandEventArgs args)
+    {
+        AppendToLog("Create", args);
+
+        Customer item = (Customer)args.Item;
+        CustomerService.Create(item);
+        //perform actual data source operation here
+
+        //if you have a context added through an @inject statement, you could call its SaveChanges() method
+        //myContext.SaveChanges();
+
+        //await Task.Delay(2000); //simulate actual long running async operation
+        //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
+
+        //item.Id = Customers.Count + 1;
+        Customers.Insert(0, item);
+    }
+
+    public async Task CancelHandler(GridCommandEventArgs args)
+    {
+        AppendToLog("Cancel", args);
+
+        Customer item = (Customer)args.Item;
+
+        //if necessary, perform actual data source operation here (like cancel changes on a context)
+
+        //if you have a context added through an @inject statement, you could use something like this to abort changes
+        //foreach (var entry in myContext.ChangeTracker.Entries().Where(entry => entry.State == EntityState.Modified))
+        //{
+        //  entry.State = EntityState.Unchanged;
+        //}
+
+        //await Task.Delay(2000); //simulate actual long running async operation
+        //await httpClient.PutJsonAsync("myApiUrl/" + item.Id, item); //sample HTTP call
+    }
+
+    MarkupString logger;
+    private void AppendToLog(string commandName, GridCommandEventArgs args)
+    {
+        string currAction = string.Format(
+            "<br />Command: <strong>{0}</strong>; is cancelled: <strong>{1}</strong>; is the item new: <strong>{2}</strong>",
+                commandName,
+                args.IsCancelled,
+                args.IsNew
+            );
+        logger = new MarkupString(logger + currAction);
+    }
+
+
+    //in a real case, keep the models in dedicated locations, this is just an easy to copy and see example
+    //public class SampleData
+    //{
+    //    public int ID { get; set; }
+    //    public string Name { get; set; }
+    //}
+
+    //public List<SampleData> MyData { get; set; }
+
+    //protected override void OnInitialized()
+    //{
+    //    MyData = new List<SampleData>();
+
+    //    for (int i = 0; i < 50; i++)
+    //    {
+    //        MyData.Add(new SampleData()
+    //        {
+    //            ID = i,
+    //            Name = "Name " + i.ToString()
+    //        });
+    //    }
+    //}
+}

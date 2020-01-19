@@ -45,22 +45,23 @@
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-default" @onclick=CreateEmployee>Save</button>
-                @*<button class="btn" onclick="@cancel">Cancel</button>*@
+                <button class="btn" @onclick="cancel">Cancel</button>
             </div>
         </form>
     </div>
 </div>
 @code {
     Customer customer = new Customer();
-    
+
     protected async Task CreateEmployee()
     {
-        //await Http.SendJsonAsync(HttpMethod.Post, "/api/Employee/Create", emp);
+        
         CustomerService.Create(customer);
-        NavigationManager.NavigateTo("/fetchdata");        
+        //await Task.Delay(2000);
+        //NavigationManager.NavigateTo("/",true);        
     }
     void cancel()
     {
-        //UriHelper.NavigateTo("/fetchemployee");
+        NavigationManager.NavigateTo("/",true);
     }
 }
