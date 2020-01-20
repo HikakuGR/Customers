@@ -46,6 +46,13 @@ namespace BlazorApp
             services.AddControllers();
 
             services.AddTelerikBlazor();
+
+            services.AddAuthentication("Bearer")
+          .AddJwtBearer("Bearer", options =>
+          {
+              options.Authority = "https://demo.identityserver.io/";
+              options.Audience = "api";
+          });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +70,7 @@ namespace BlazorApp
             app.UseStaticFiles();
             
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

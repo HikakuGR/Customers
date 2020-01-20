@@ -1,5 +1,6 @@
 ﻿using BlazorApp.Models;
 using BlazorApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -7,6 +8,7 @@ namespace BlazorApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CustomersController : ControllerBase
     {
         private readonly CustomerService _CustomerService;
@@ -16,10 +18,11 @@ namespace BlazorApp.Controllers
             _CustomerService = CustomerService;
         }
 
+        
         [HttpGet]
         public ActionResult<List<Customer>> Get() =>
             _CustomerService.Get();
-
+        
         [HttpGet("{id:length(24)}", Name = "GetCustomer")]
         public ActionResult<Customer> Get(string id)
         {
