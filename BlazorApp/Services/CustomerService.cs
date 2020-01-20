@@ -46,20 +46,20 @@ namespace BlazorApp.Services
     }
 
     public interface ICustomerService
-    { 
-        public List<Customer> Get();
+    {
+        List<Customer> Get();
 
-        public Customer Get(string id);
+        Customer Get(string id);
 
-        public List<Customer> GetPaged(int page, int pageSize, out int total);
+        List<Customer> GetPaged(int page, int pageSize, out int total);
 
-        public Customer Create(Customer Customer);
+        Customer Create(Customer Customer);
 
-        public void Update(string id, Customer CustomerIn);
+        void Update(string id, Customer CustomerIn);
 
-        public void Remove(Customer CustomerIn);
+        void Remove(Customer CustomerIn);
 
-        public void Remove(string id);
+        void Remove(string id);
     }
 
 }

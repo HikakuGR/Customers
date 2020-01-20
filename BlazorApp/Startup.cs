@@ -34,7 +34,7 @@ namespace BlazorApp
             services.AddSingleton<ICustomersDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<CustomersDatabaseSettings>>().Value);
             
-            services.AddSingleton<CustomerService>();
+            services.AddSingleton<ICustomerService,CustomerService>();
             
             services.AddRazorPages();            
             

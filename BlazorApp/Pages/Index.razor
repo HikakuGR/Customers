@@ -1,10 +1,7 @@
 ﻿@page "/"
 @using BlazorApp.Services
 @using BlazorApp.Models
-
-
-
-@inject CustomerService CustomerService
+@inject ICustomerService CustomerService
 
 <TelerikGrid Data=@Customers EditMode="@GridEditMode.Inline" Pageable="true" Height="500px" 
              TotalCount="Total" PageSize="5" OnRead="@ReadItems"

@@ -11,9 +11,9 @@ namespace BlazorApp.Controllers
     [Authorize]
     public class CustomersController : ControllerBase
     {
-        private readonly CustomerService _CustomerService;
+        private readonly ICustomerService _CustomerService;
 
-        public CustomersController(CustomerService CustomerService)
+        public CustomersController(ICustomerService CustomerService)
         {
             _CustomerService = CustomerService;
         }
