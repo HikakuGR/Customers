@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BlazorApp.Services
 {
-    public class CustomerService
+    public class CustomerService : ICustomerService
     {
         private readonly IMongoCollection<Customer> _Customers;
 
@@ -44,4 +44,22 @@ namespace BlazorApp.Services
         public void Remove(string id) =>
             _Customers.DeleteOne(Customer => Customer.Id == id);
     }
+
+    public interface ICustomerService
+    { 
+        public List<Customer> Get();
+
+        public Customer Get(string id);
+
+        public List<Customer> GetPaged(int page, int pageSize, out int total);
+
+        public Customer Create(Customer Customer);
+
+        public void Update(string id, Customer CustomerIn);
+
+        public void Remove(Customer CustomerIn);
+
+        public void Remove(string id);
+    }
+
 }
