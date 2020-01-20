@@ -39,7 +39,7 @@
     protected void ReadItems(GridReadEventArgs args)
     {
 
-        Customers = CustomerService.GetPaged(args.Request.Page - 1, args.Request.PageSize, out Total);
+        Customers =  CustomerService.GetPaged(args.Request.Page - 1, args.Request.PageSize, out Total);
         StateHasChanged();
     }
 

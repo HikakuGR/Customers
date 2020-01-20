@@ -41,7 +41,7 @@
                 <input asp-for="City" class="form-control" @bind="@customer.City" />
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-default" @onclick=CreateEmployee>Save</button>
+                <button type="button" class="btn btn-default" @onclick=@(async () => await CreateCustomers())>Save</button>
                 <button class="btn" @onclick="Cancel">Cancel</button>
             </div>
         </form>
@@ -51,10 +51,10 @@
 @code {
     Customer customer = new Customer();
 
-    protected async Task CreateEmployee()
+    protected async Task CreateCustomers()
     {
 
-        CustomerService.Create(customer);
+         CustomerService.Create(customer);
         
         NavigationManager.NavigateTo("/CustomersTable");
     }
