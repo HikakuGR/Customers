@@ -9,7 +9,7 @@ namespace BlazorApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerService _CustomerService;

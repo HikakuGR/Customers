@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using BlazorApp.Models;
 using Microsoft.Extensions.Options;
 using BlazorApp.Services;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace BlazorApp
 {
@@ -47,12 +48,28 @@ namespace BlazorApp
 
             services.AddTelerikBlazor();
 
-            services.AddAuthentication("Bearer")
-          .AddJwtBearer("Bearer", options =>
-          {
-              options.Authority = "https://demo.identityserver.io/";
-              options.Audience = "api";
-          });
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = "Cookies";
+                options.DefaultChallengeScheme = "oidc";
+            })
+            .AddCookie("Cookies")
+            .AddOpenIdConnect("oidc", options =>
+            {
+                options.Authority = "https://demo.identityserver.io/";
+
+                options.ClientId = "interactive.confidential";
+                options.ClientSecret = "secret";
+                options.ResponseType = "code";
+                options.SaveTokens = true;
+            })
+            .AddJwtBearer("Bearer", options =>
+            {
+                options.Authority = "https://demo.identityserver.io/";
+                options.Audience = "api";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
