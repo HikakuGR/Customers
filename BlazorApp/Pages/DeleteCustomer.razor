@@ -35,7 +35,7 @@
         </tbody>
     </table>
         <div class="form-group">
-            <input type="submit" value="Delete" @onclick=Delete class="btn btn-danger" />
+            <input type="submit" value="Delete" @onclick=@(async () => await Delete()) class="btn btn-danger" />
             <input type="submit" value="Cancel" @onclick="cancel" class="btn btn-outline-success" />
         </div>
 </div>
