@@ -58,6 +58,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Customers = CustomerService.Get();        
+        Customers = await CustomerService.Get();        
     }
 }

@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BlazorApp.Services
 {
@@ -17,49 +18,61 @@ namespace BlazorApp.Services
             _Customers = database.GetCollection<Customer>(settings.CustomersCollectionName);
         }
 
-        public List<Customer> Get() =>
-            _Customers.Find(Customer => true).ToList();
+        public async Task<List<Customer>> Get() =>
+           await _Customers.Find(Customer => true).ToListAsync();
 
-        public Customer Get(string id) =>
-            _Customers.Find<Customer>(Customer => Customer.Id == id).FirstOrDefault();
+        public async Task<Customer> Get(string id) =>
+           await _Customers.Find<Customer>(Customer => Customer.Id == id).FirstOrDefaultAsync();
 
-        public List<Customer> GetPaged(int page, int pageSize, out int total)
+        public  List<Customer> GetPaged(int page, int pageSize)
         {
-            var customers = _Customers.Find(Customer => true).Skip(page * pageSize).Limit(pageSize).ToList();
-            total = (int)_Customers.CountDocuments(Customer => true);
-            return customers;
+            var customers =  _Customers.Find(Customer => true).Skip(page * pageSize).Limit(pageSize).ToList();
+           
+            return  customers;
         }
-        public Customer Create(Customer Customer)
+
+        public long GetCustomerCount()
         {
-            _Customers.InsertOne(Customer);
+            long total = 0;
+            total =  _Customers.CountDocuments(Customer => true);
+            return total; 
+        }
+        public async Task<Customer> Create(Customer Customer)
+        {
+            await _Customers.InsertOneAsync(Customer);
             return Customer;
         }
 
-        public void Update(string id, Customer CustomerIn) =>
-            _Customers.ReplaceOne(Customer => Customer.Id == id, CustomerIn);
+        public async Task Update(string id, Customer CustomerIn)
+        {
+            await _Customers.ReplaceOneAsync(Customer => Customer.Id == id, CustomerIn);
+        }
 
-        public void Remove(Customer CustomerIn) =>
-            _Customers.DeleteOne(Customer => Customer.Id == Customer.Id);
+        public async Task Remove(Customer CustomerIn) =>
+            await _Customers.DeleteOneAsync(Customer => Customer.Id == Customer.Id);
 
-        public void Remove(string id) =>
-            _Customers.DeleteOne(Customer => Customer.Id == id);
+        public async Task Remove(string id) =>
+            await _Customers.DeleteOneAsync(Customer => Customer.Id == id);
     }
 
     public interface ICustomerService
     {
-        List<Customer> Get();
+        Task<List<Customer>> Get();
 
-        Customer Get(string id);
+        Task<Customer> Get(string id);
 
-        List<Customer> GetPaged(int page, int pageSize, out int total);
+        List<Customer> GetPaged(int page, int pageSize);
 
-        Customer Create(Customer Customer);
+        long GetCustomerCount();
+        
 
-        void Update(string id, Customer CustomerIn);
+        Task<Customer> Create(Customer Customer);
 
-        void Remove(Customer CustomerIn);
+        Task Update(string id, Customer CustomerIn);
 
-        void Remove(string id);
+        Task Remove(Customer CustomerIn);
+
+        Task Remove(string id);
     }
 
 }

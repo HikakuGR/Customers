@@ -4,7 +4,7 @@
 @inject ICustomerService CustomerService
 
 <TelerikGrid Data=@Customers EditMode="@GridEditMode.Inline" Pageable="true" Height="500px" 
-             TotalCount="Total" PageSize="5" OnRead="@ReadItems"
+             TotalCount="(int)Total" PageSize="5" OnRead="@ReadItems"
              OnUpdate="@UpdateHandler"  OnDelete="@DeleteHandler" OnCreate="@CreateHandler" >
     <GridToolBar>
         <GridCommandButton Command="Add" Icon="add">Create New</GridCommandButton>
@@ -35,11 +35,12 @@
 
 
     List<Customer> Customers;
-    int Total;
+    long Total;
     protected void ReadItems(GridReadEventArgs args)
     {
 
-        Customers =  CustomerService.GetPaged(args.Request.Page - 1, args.Request.PageSize, out Total);
+        Customers =  CustomerService.GetPaged(args.Request.Page - 1, args.Request.PageSize);
+        Total =  CustomerService.GetCustomerCount();
         StateHasChanged();
     }
 
@@ -50,7 +51,7 @@
 
 
         Customer item = (Customer)args.Item;
-        CustomerService.Update(item.Id, item);
+        await CustomerService.Update(item.Id, item);
 
     }
 
@@ -59,7 +60,7 @@
 
 
         Customer item = (Customer)args.Item;
-        CustomerService.Remove(item.Id);
+        await CustomerService.Remove(item.Id);
         //Customers.Remove(item);
     }
 
@@ -68,7 +69,7 @@
 
 
         Customer item = (Customer)args.Item;
-        CustomerService.Create(item);
+        await CustomerService.Create(item);
 
         //Customers.Insert(0, item);
     }

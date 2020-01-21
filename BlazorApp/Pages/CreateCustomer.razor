@@ -54,7 +54,7 @@
     protected async Task CreateCustomers()
     {
 
-         CustomerService.Create(customer);
+         await CustomerService.Create(customer);
         
         NavigationManager.NavigateTo("/CustomersTable");
     }

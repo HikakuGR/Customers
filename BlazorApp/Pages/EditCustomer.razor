@@ -59,16 +59,16 @@
 
 
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        customer =  CustomService.Get(customerId);
+        customer =  await CustomService.Get(customerId);
     }
 
     protected async Task UpdateCustomer()
     {
 
 
-        CustomService.Update(customerId, customer);
+        await CustomService.Update(customerId, customer);
         
         NavigationManager.NavigateTo("/CustomersTable",true);
         

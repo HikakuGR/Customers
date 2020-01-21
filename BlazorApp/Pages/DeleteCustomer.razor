@@ -47,11 +47,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        customer = CustomService.Get(customerID);        
+        customer = await CustomService.Get(customerID);        
     }
     protected async Task Delete()
     {
-        CustomService.Remove(customerID);        
+        await CustomService.Remove(customerID);        
         NavigationManager.NavigateTo("/CustomersTable",true);
     }
     void cancel()
