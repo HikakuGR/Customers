@@ -24,17 +24,17 @@ namespace BlazorApp.Services
         public async Task<Customer> Get(string id) =>
            await _Customers.Find<Customer>(Customer => Customer.Id == id).FirstOrDefaultAsync();
 
-        public  List<Customer> GetPaged(int page, int pageSize)
+        public async Task<List<Customer>> GetPaged(int page, int pageSize)
         {
-            var customers =  _Customers.Find(Customer => true).Skip(page * pageSize).Limit(pageSize).ToList();
+            var customers = await _Customers.Find(Customer => true).Skip(page * pageSize).Limit(pageSize).ToListAsync();
            
             return  customers;
         }
 
-        public long GetCustomerCount()
+        public async Task<long> GetCustomerCount()
         {
             long total = 0;
-            total =  _Customers.CountDocuments(Customer => true);
+            total = await _Customers.CountDocumentsAsync(Customer => true);
             return total; 
         }
         public async Task<Customer> Create(Customer Customer)
@@ -61,9 +61,9 @@ namespace BlazorApp.Services
 
         Task<Customer> Get(string id);
 
-        List<Customer> GetPaged(int page, int pageSize);
+        Task<List<Customer>> GetPaged(int page, int pageSize);
 
-        long GetCustomerCount();
+        Task<long> GetCustomerCount();
         
 
         Task<Customer> Create(Customer Customer);

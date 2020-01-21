@@ -36,11 +36,11 @@
 
     List<Customer> Customers;
     long Total;
-    protected void ReadItems(GridReadEventArgs args)
+    protected async Task ReadItems(GridReadEventArgs args)
     {
 
-        Customers =  CustomerService.GetPaged(args.Request.Page - 1, args.Request.PageSize);
-        Total =  CustomerService.GetCustomerCount();
+        Customers =  await CustomerService.GetPaged(args.Request.Page - 1, args.Request.PageSize);
+        Total = await CustomerService.GetCustomerCount();
         StateHasChanged();
     }
 
