@@ -1,4 +1,5 @@
 ﻿using BlazorApp.Models;
+using Mongo2Go;
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,17 @@ namespace BlazorApp.Services
             _Customers = database.GetCollection<Customer>(settings.CustomersCollectionName);
         }
 
+        //internal static MongoDbRunner _runner;
+        //internal static IMongoCollection<Customer> _collection;
+
+        //internal static void CreateConnection()
+        //{
+        //    _runner = MongoDbRunner.Start();
+
+        //    MongoServer server = MongoServer.Create(_runner.ConnectionString);
+        //    MongoDatabase database = server.GetDatabase("IntegrationTest");
+        //    _collection = database.GetCollection<Customer>("TestCollection");
+        //}
         public async Task<List<Customer>> Get() =>
            await _Customers.Find(Customer => true).ToListAsync();
 

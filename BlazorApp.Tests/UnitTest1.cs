@@ -1,37 +1,47 @@
 using System;
 using Xunit;
 using BlazorApp;
-//using Microsoft.AspNetCore.Mvc.Testing;
+using System.Threading.Tasks;
+using BlazorApp.Models;
+using BlazorApp.Services;
+using MongoDB.Bson;
+using Mongo2Go;
+using Microsoft.AspNetCore.Mvc.Testing;
 namespace BlazorApp.Tests
 {
-    //public class BasicTests
-    //: IClassFixture<WebApplicationFactory<BlazorApp.Startup>>
-    //{
-    //    private readonly WebApplicationFactory<RazorPagesProject.Startup> _factory;
+    
 
-    //    public BasicTests(WebApplicationFactory<RazorPagesProject.Startup> factory)
-    //    {
-    //        _factory = factory;
-    //    }
+    public class UnitTest1
+    {
+        [Fact]
+        public void PassingTest()
+        {
+            Assert.Equal(4, Add(2, 2));
+        }
 
-    //    [Theory]
-    //    [InlineData("/")]
-    //    [InlineData("/Index")]
-    //    [InlineData("/About")]
-    //    [InlineData("/Privacy")]
-    //    [InlineData("/Contact")]
-    //    public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
-    //    {
-    //        // Arrange
-    //        var client = _factory.CreateClient();
+        [Fact]
+        public void FailingTest()
+        {
+            Assert.Equal(5, Add(2, 2));
+        }
 
-    //        // Act
-    //        var response = await client.GetAsync(url);
+        int Add(int x, int y)
+        {
+            return x + y;
+        }
 
-    //        // Assert
-    //        response.EnsureSuccessStatusCode(); // Status Code 200-299
-    //        Assert.Equal("text/html; charset=utf-8",
-    //            response.Content.Headers.ContentType.ToString());
-    //    }
-    //}
+        [Theory]
+        [InlineData(3)]
+        [InlineData(5)]
+        [InlineData(6)]
+        public void MyFirstTheory(int value)
+        {
+            Assert.True(IsOdd(value));
+        }
+
+        bool IsOdd(int value)
+        {
+            return value % 2 == 1;
+        }
+    }
 }
