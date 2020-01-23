@@ -15,24 +15,13 @@ namespace BlazorApp.Services
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
-
             _Customers = database.GetCollection<Customer>(settings.CustomersCollectionName);
         }
 
-        //internal static MongoDbRunner _runner;
-        //internal static IMongoCollection<Customer> _collection;
-
-        //internal static void CreateConnection()
-        //{
-        //    _runner = MongoDbRunner.Start();
-
-        //    MongoServer server = MongoServer.Create(_runner.ConnectionString);
-        //    MongoDatabase database = server.GetDatabase("IntegrationTest");
-        //    _collection = database.GetCollection<Customer>("TestCollection");
-        //}
+        
         public async Task<List<Customer>> Get() =>
            await _Customers.Find(Customer => true).ToListAsync();
-
+        
         public async Task<Customer> Get(string id) =>
            await _Customers.Find<Customer>(Customer => Customer.Id == id).FirstOrDefaultAsync();
 

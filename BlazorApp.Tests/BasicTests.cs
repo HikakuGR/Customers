@@ -7,12 +7,19 @@ using BlazorApp.Services;
 using MongoDB.Bson;
 using Mongo2Go;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Moq;
+using BlazorApp.Controllers;
+using System.Collections.Generic;
+
 namespace BlazorApp.Tests
 {
     
 
-    public class UnitTest1
+    public class BasicTests
     {
+
+
+
         [Fact]
         public void PassingTest()
         {
@@ -43,5 +50,7 @@ namespace BlazorApp.Tests
         {
             return value % 2 == 1;
         }
+
+
     }
 }

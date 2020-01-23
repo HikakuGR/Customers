@@ -13,16 +13,19 @@ namespace BlazorApp.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly ICustomerService _CustomerService;
+        
 
         public CustomersController(ICustomerService CustomerService)
         {
             _CustomerService = CustomerService;
         }
 
+        
 
         [HttpGet]
         public async Task<ActionResult<List<Customer>>>Get()
         {
+            
             return await _CustomerService.Get();
         }
 
