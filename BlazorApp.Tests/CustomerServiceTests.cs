@@ -110,11 +110,11 @@ namespace BlazorApp.Tests
             await SeedDBAsync(customerService);
             var result = await customerService.GetPaged(2, 5);
             Assert.Equal(5, result.Count());
-            Assert.NotNull(result.FirstOrDefault(c => c.ContactName == "customer 10").ContactName);
-            Assert.NotNull(result.FirstOrDefault(c => c.ContactName == "customer 11").ContactName);
-            Assert.NotNull(result.FirstOrDefault(c => c.ContactName == "customer 12").ContactName);
-            Assert.NotNull(result.FirstOrDefault(c => c.ContactName == "customer 13").ContactName);
-            Assert.NotNull(result.FirstOrDefault(c => c.ContactName == "customer 14").ContactName);
+            Assert.Equal("customer 10", result.ElementAt(0).ContactName);
+            Assert.Equal("customer 11", result.ElementAt(1).ContactName);
+            Assert.Equal("customer 12", result.ElementAt(2).ContactName);
+            Assert.Equal("customer 13", result.ElementAt(3).ContactName);
+            Assert.Equal("customer 14", result.ElementAt(4).ContactName);
         }
 
         [Fact]
