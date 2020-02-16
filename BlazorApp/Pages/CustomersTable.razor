@@ -17,96 +17,101 @@ else
     <p>
         <a href="/CreateCustomer">Create New</a>
     </p>
-    <label>Type your filter here</label>
-    <input @bind="filterText"/><button class="btn-primary" @onclick="@(() =>SelectedPage(1))" >Filter</button>
-                                <div class="container">
-                                    <div class="row align-items-start ">
-                                        <div class="col-1">
-                                            Name
-                                        </div>
-                                        <div class="col-1">
-                                            Address
-                                        </div>
-                                        <div class="col-2">
-                                            CompanyName
-                                        </div>
-                                        <div class="col-1">
-                                            Country
-                                        </div>
-                                        <div class="col-2">
-                                            Phone
-                                        </div>
-                                        <div class="col-1">
-                                            PostalCode
-                                        </div>
-                                        <div class="col-1">
-                                            Region
-                                        </div>
-                                        <div class="col-2">
-                                            City
-                                        </div>
-                                        <div class="col-1">
-                                            Controls
-                                        </div>
-                                    </div>
-                                    @foreach (var customer in Customers)
-                                    {
-                                        <div class="row  align-items-start">
-                                            <div class="col-1">
-                                                @customer.ContactName
-                                            </div>
-                                            <div class="col-1">
-                                                @customer.Address
-                                            </div>
-                                            <div class="col-2">
-                                                @customer.CompanyName
-                                            </div>
-                                            <div class="col-1">
-                                                @customer.Country
-                                            </div>
-                                            <div class="col-2">
-                                                @customer.Phone
-                                            </div>
-                                            <div class="col-1">
-                                                @customer.PostalCode
-                                            </div>
-                                            <div class="col-1">
-                                                @customer.Region
-                                            </div>
-                                            <div class="col-2">
-                                                @customer.City
-                                            </div>
-                                            <div class="col-1">
-                                                <a href='/EditCustomer/@customer.Id'>Edit</a>
-                                                <a href='/DeleteCustomer/@customer.Id'>Delete</a>
-                                            </div>
-                                        </div>
+    
+   
+    <div class="container">
+        <div class="row align-items-start">
+            <input placeholder="Type your filter here..." @bind="filterText" /><button class="btn-primary" @onclick="@(() =>SelectedPage(1))">Filter</button>
+        </div>
+        <div class="row align-items-start ">
+            <div class="col-1">
+                Name
+            </div>
+            <div class="col-1">
+                Address
+            </div>
+            <div class="col-2">
+                CompanyName
+            </div>
+            <div class="col-1">
+                Country
+            </div>
+            <div class="col-2">
+                Phone
+            </div>
+            <div class="col-1">
+                PostalCode
+            </div>
+            <div class="col-1">
+                Region
+            </div>
+            <div class="col-2">
+                City
+            </div>
+            <div class="col-1">
+                Controls
+            </div>
+        </div>
+        @foreach (var customer in Customers)
+        {
+            <div class="row  align-items-start">
+                <div class="col-1">
+                    @customer.ContactName
+                </div>
+                <div class="col-1">
+                    @customer.Address
+                </div>
+                <div class="col-2">
+                    @customer.CompanyName
+                </div>
+                <div class="col-1">
+                    @customer.Country
+                </div>
+                <div class="col-2">
+                    @customer.Phone
+                </div>
+                <div class="col-1">
+                    @customer.PostalCode
+                </div>
+                <div class="col-1">
+                    @customer.Region
+                </div>
+                <div class="col-2">
+                    @customer.City
+                </div>
+                <div class="col-1">
+                    <a href='/EditCustomer/@customer.Id'>Edit</a>
+                    <a href='/DeleteCustomer/@customer.Id'>Delete</a>
+                </div>
+            </div>
 
-                                    }
-                                    <label>TotalCustomers:@total</label><br />
-                                    <label>Page@(currentPage)/@((total / pageSize))</label>
+        }
+        <label>TotalCustomers:@total</label><br />
+        <label>Page@(currentPage)/@((total / pageSize))</label>
 
 
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination @(total <= pageSize ? "disabled" : null)">
-                                            <li @onclick="@(() => Previous())"
-                                                style="cursor:pointer"
-                                                class="page-item @(currentPage== 0 ? "disabled" : null) ">
-                                                <span class="page-link">Previous</span>
-                                            </li>
-                                            <li style="cursor:pointer" class="page-item @(currentPage == 0 || currentPage == 1 ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage-1))"><span class="page-link">@(currentPage - 1)</span></li>
-                                            <li style="cursor:pointer" class="page-item @(currentPage == 0  ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage))"><span class="page-link">@(currentPage)</span></li>
-                                            <li style="cursor:pointer" class="page-item active" @onclick="@(() => SelectedPage(currentPage))"><span class="page-link">@(currentPage+1)</span></li>
-                                            <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize)  ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+2))"><span class="page-link">@(currentPage + 2 )</span></li>
-                                            <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize) || currentPage == (total/pageSize)-1? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+3))"><span class="page-link">@(currentPage + 3)</span></li>
-                                            <li @onclick="@(() => Next())"
-                                                style="cursor:pointer"
-                                                class="page-item @(currentPage==(total/pageSize) ? "disabled" : null) ">
-                                                <span class="page-link">Next</span>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination @(total <= pageSize ? "disabled" : null)">
+                <li @onclick="@(() => Previous())"
+                    style="cursor:pointer"
+                    class="page-item @(currentPage== 0 ? "disabled" : null) ">
+                    <span class="page-link">Previous</span>
+                </li>
+                @*<li style="cursor:pointer" class="page-item @(currentPage == 0 || currentPage == 1 ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage-1))"><span class="page-link">@(currentPage - 1)</span></li>
+                <li style="cursor:pointer" class="page-item @(currentPage == 0  ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage))"><span class="page-link">@(currentPage)</span></li>*@
+                <li style="cursor:pointer" class="page-item active" @onclick="@(() => SelectedPage(currentPage))"><span class="page-link">@(currentPage + 1)</span></li>
+                <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize)  ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+2))"><span class="page-link">@(currentPage + 2)</span></li>
+                <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize) || currentPage == (total/pageSize)-1? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+3))"><span class="page-link">@(currentPage + 3)</span></li>
+                <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize) || currentPage == (total/pageSize)-1? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+4))"><span class="page-link">@(currentPage + 4)</span></li>
+                <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize) || currentPage == (total/pageSize)-1? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+5))"><span class="page-link">@(currentPage + 5)</span></li>
+                <li @onclick="@(() => Next())"
+                    style="cursor:pointer"
+                    class="page-item @(currentPage==(total/pageSize) ? "disabled" : null) ">
+                    <span class="page-link">Next</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
     @*<table class="table table-striped">
             <thead class="thead-dark">
                 <tr>
