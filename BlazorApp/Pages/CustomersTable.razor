@@ -17,48 +17,123 @@ else
     <p>
         <a href="/CreateCustomer">Create New</a>
     </p>
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th>ContactName</th>
-                <th>Address</th>
-                <th>CompanyName</th>
-                <th>Country</th>
-                <th>Phone</th>
-                <th>PostalCode</th>
-                <th>Region</th>
-                <th>City</th>       
-                <th>Controls</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var customer in Customers)
-            {
-            <tr>
-                <td>@customer.ContactName</td>
-                <td>@customer.Address</td>
-                <td>@customer.CompanyName</td>
-                <td>@customer.Country</td>
-                <td>@customer.Phone</td>
-                <td>@customer.PostalCode</td>
-                <td>@customer.Region</td>
-                <td>@customer.City</td>
-                <td>
-                    <a href='/EditCustomer/@customer.Id'>Edit</a>  
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                ContactName
+            </div>
+            <div class="col-sm">
+                Address
+            </div>
+            <div class="col-sm">
+                CompanyName
+            </div>
+            <div class="col-sm">
+                Country
+            </div>
+            <div class="col-sm">
+                Phone
+            </div>
+            <div class="col-sm">
+                PostalCode
+            </div>
+            <div class="col-sm">
+                Region
+            </div>
+            <div class="col-sm">
+                City
+            </div>
+            <div class="col-sm">
+                Controls
+            </div>
+        </div>
+        @foreach (var customer in Customers)
+        {
+            <div class="row">
+                <div class="col-sm">
+                    @customer.ContactName
+                </div>
+                <div class="col-sm">
+                    @customer.Address
+                </div>
+                <div class="col-sm">
+                    @customer.CompanyName
+                </div>
+                <div class="col-sm">
+                    @customer.Country
+                </div>
+                <div class="col-sm">
+                    @customer.Phone
+                </div>
+                <div class="col-sm">
+                    @customer.PostalCode
+                </div>
+                <div class="col-sm">
+                    @customer.Region
+                </div>
+                <div class="col-sm">
+                    @customer.City
+                </div>
+                <div class="col-sm">
+                    <a href='/EditCustomer/@customer.Id'>Edit</a>
                     <a href='/DeleteCustomer/@customer.Id'>Delete</a>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+                </div>
+            </div>
+
+        }
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+    @*<table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ContactName</th>
+                    <th>Address</th>
+                    <th>CompanyName</th>
+                    <th>Country</th>
+                    <th>Phone</th>
+                    <th>PostalCode</th>
+                    <th>Region</th>
+                    <th>City</th>
+                    <th>Controls</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Customers)
+                {
+                <tr>
+                    <td>@customer.ContactName</td>
+                    <td>@customer.Address</td>
+                    <td>@customer.CompanyName</td>
+                    <td>@customer.Country</td>
+                    <td>@customer.Phone</td>
+                    <td>@customer.PostalCode</td>
+                    <td>@customer.Region</td>
+                    <td>@customer.City</td>
+                    <td>
+                        <a href='/EditCustomer/@customer.Id'>Edit</a>
+                        <a href='/DeleteCustomer/@customer.Id'>Delete</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>*@
 }
 
 @code {
-   
+
     private List<Customer> Customers;
 
     protected override async Task OnInitializedAsync()
     {
-        Customers = await CustomerService.Get();        
+        Customers = await CustomerService.Get();
     }
 }
