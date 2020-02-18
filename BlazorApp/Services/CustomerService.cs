@@ -18,25 +18,55 @@ namespace BlazorApp.Services
             _Customers = database.GetCollection<Customer>(settings.CustomersCollectionName);
         }
 
-        
+
         public async Task<List<Customer>> Get() =>
            await _Customers.Find(Customer => true).ToListAsync();
-        
+
         public async Task<Customer> Get(string id) =>
            await _Customers.Find<Customer>(Customer => Customer.Id == id).FirstOrDefaultAsync();
 
-        public async Task<List<Customer>> GetPaged(int page, int pageSize)
+        public async Task<List<Customer>> GetPaged(int page, int pageSize ,string filterText = "")
         {
-            var customers = await _Customers.Find(Customer => true).Skip(page * pageSize).Limit(pageSize).ToListAsync();
-           
-            return  customers;
+            if (filterText == null)
+            {
+                var customers = await _Customers.Find(Customer => true).Skip(page * pageSize).Limit(pageSize).ToListAsync();
+                return customers;
+            }
+            else
+            {
+                var customers = await _Customers.Find(Customer => Customer.Address.Contains(filterText) 
+                || Customer.CompanyName.Contains(filterText)
+                || Customer.ContactName.Contains(filterText)
+                || Customer.Country.Contains(filterText)
+                || Customer.Phone.Contains(filterText)
+                || Customer.Region.Contains(filterText)
+                || Customer.PostalCode.Contains(filterText)
+                || Customer.City.Contains(filterText))                
+                    //.Where(x => x. x.Name.Contains(searchText) || x.Whatever.Contains(searchText)
+                .Skip(page * pageSize)
+                .Limit(pageSize)
+                .ToListAsync();
+                return customers;
+            }
+
+            
         }
 
-        public async Task<long> GetCustomerCount()
+        
+        public async Task<long> GetCustomerCount(string filterText="")
         {
-            long total = 0;
-            total = await _Customers.CountDocumentsAsync(Customer => true);
-            return total; 
+            
+            long total = await _Customers.Find(Customer => Customer.Address.Contains(filterText)
+                || Customer.CompanyName.Contains(filterText)
+                || Customer.ContactName.Contains(filterText)
+                || Customer.Country.Contains(filterText)
+                || Customer.Phone.Contains(filterText)
+                || Customer.Region.Contains(filterText)
+                || Customer.PostalCode.Contains(filterText)
+                || Customer.City.Contains(filterText)).CountDocumentsAsync();
+            
+            //total = await _Customers.CountDocumentsAsync(Customer => true);
+            return total;
         }
         public async Task<Customer> Create(Customer Customer)
         {
@@ -62,10 +92,11 @@ namespace BlazorApp.Services
 
         Task<Customer> Get(string id);
 
-        Task<List<Customer>> GetPaged(int page, int pageSize);
+        Task<List<Customer>> GetPaged(int page, int pageSize, string filterText = null);       
 
-        Task<long> GetCustomerCount();
-        
+
+        Task<long> GetCustomerCount(string filterText = "");
+
 
         Task<Customer> Create(Customer Customer);
 
