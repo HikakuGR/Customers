@@ -197,6 +197,7 @@ app {
         text-align: center;
     }
 
+   
     .pagebutton {
         margin-right: 5px;
         margin-top: 5px;
@@ -205,5 +206,17 @@ app {
     .currentpage {
         background-color: dodgerblue;
         color: white;
+    }
+
+    .borders {
+        border-style: groove;
+        
+    }
+    .disabled {
+        pointer-events: none;        
+        opacity:0.6;        
+    }
+    .hidden {
+        display: none;
     }
 }
