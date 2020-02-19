@@ -46,7 +46,7 @@ namespace BlazorApp
 
             services.AddControllers();
 
-            services.AddTelerikBlazor();
+            
 
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
