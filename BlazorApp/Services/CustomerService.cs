@@ -43,6 +43,7 @@ namespace BlazorApp.Services
                 || Customer.Region.Contains(filterText)
                 || Customer.PostalCode.Contains(filterText)
                 || Customer.City.Contains(filterText));
+
                 var customers = await _Customers.Find(filter)
                 .Skip(page * pageSize)
                 .Limit(pageSize)
@@ -56,17 +57,20 @@ namespace BlazorApp.Services
         
         public async Task<long> GetCustomerCount(string filterText="")
         {
-            
-            long total = await _Customers.Find(Customer => Customer.Address.Contains(filterText)
+
+                var builder = Builders<Customer>.Filter;
+                var filter = builder.Where(Customer => Customer.Address.Contains(filterText)
                 || Customer.CompanyName.Contains(filterText)
                 || Customer.ContactName.Contains(filterText)
                 || Customer.Country.Contains(filterText)
                 || Customer.Phone.Contains(filterText)
                 || Customer.Region.Contains(filterText)
                 || Customer.PostalCode.Contains(filterText)
-                || Customer.City.Contains(filterText)).CountDocumentsAsync();
-            
-            
+                || Customer.City.Contains(filterText));
+
+                var total = await _Customers.Find(filter).CountDocumentsAsync();
+
+
             return total;
         }
         public async Task<Customer> Create(Customer Customer)

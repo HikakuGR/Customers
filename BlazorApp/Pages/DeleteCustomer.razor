@@ -5,7 +5,7 @@
 @inject NavigationManager NavigationManager
 
 <h2>Delete</h2>
-<h3>Are you sure you want to delete employee with id : @customerID</h3>
+<h3>Are you sure you want to delete this employee? </h3>
 <br />
 <div class="col-md-4">
     <table class="table">
@@ -35,8 +35,8 @@
         </tbody>
     </table>
         <div class="form-group">
-            <input type="submit" value="Delete" @onclick=@(async () => await Delete()) class="btn btn-danger" />
-            <input type="submit" value="Cancel" @onclick="cancel" class="btn btn-outline-success" />
+            <button type="button" @onclick="Delete" class="btn btn-danger">Delete</button>
+            <button type="button"  @onclick="Cancel" class="btn btn-outline-success">Cancel</button>
         </div>
 </div>
 @code {
@@ -52,10 +52,10 @@
     protected async Task Delete()
     {
         await CustomService.Remove(customerID);        
-        NavigationManager.NavigateTo("/CustomersTable",true);
+        NavigationManager.NavigateTo("/");
     }
-    void cancel()
+    void Cancel()
     {
-        NavigationManager.NavigateTo("/CustomersTable",true);
+        NavigationManager.NavigateTo("/");
     }
 }

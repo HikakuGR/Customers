@@ -1,10 +1,10 @@
-﻿@page "/CustomersTable"
+﻿@page "/"
 @using BlazorApp.Services
 @using BlazorApp.Models
 
 @inject ICustomerService CustomerService
+@inject NavigationManager NavigationManager
 
-<h1>Customers</h1>
 
 
 
@@ -13,139 +13,86 @@
     <p><em>Loading...</em></p>
 }
 else
-{
-    <p>
-        <a href="/CreateCustomer">Create New</a>
-    </p>
-    
-   
+{   
+
     <div class="container">
-        <div class="row align-items-start">
-            <input placeholder="Type your filter here..." @bind="filterText" /><button class="btn-primary" @onclick="@(() =>SelectedPage(1))">Filter</button>
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-12"><h2>Customers <b>Table</b></h2></div>                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <button @onclick="@(() => NavigationManager.NavigateTo("/CreateCustomer"))"><span class="oi oi-plus"></span> Add</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="search-box">
+                            <span class="oi oi-magnifying-glass"></span>
+                            <input type="text" class="form-control" @oninput="OnSearch" placeholder="Search...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+            <table class="table  table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ContactName</th>
+                        <th>Address</th>
+                        <th>CompanyName</th>
+                        <th>Country</th>
+                        <th>Phone</th>
+                        <th>PostalCode</th>
+                        <th>Region</th>
+                        <th>City</th>
+                        <th>Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customer in Customers)
+                    {
+                        <tr>
+                            <td>@customer.ContactName</td>
+                            <td>@customer.Address</td>
+                            <td>@customer.CompanyName</td>
+                            <td>@customer.Country</td>
+                            <td>@customer.Phone</td>
+                            <td>@customer.PostalCode</td>
+                            <td>@customer.Region</td>
+                            <td>@customer.City</td>
+                            <td>
+                                <a href='/EditCustomer/@customer.Id'><span class="oi oi-pencil text-dark"></span></a>
+                                <a href='/DeleteCustomer/@customer.Id'><span class="oi oi-trash text-dark"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            </div>
+            <div class="hint-text">Showing <b>@Customers.Count</b> out of <b>@total</b> entries</div>
+            
+            <nav aria-label="Page navigation">
+                <ul class="pagination @(total <= pageSize ? "disabled" : null)">
+                    <li @onclick="@(() => Previous())"
+                        style="cursor:pointer"
+                        class="page-item @(currentPage== 0 ? "disabled" : null) ">
+                        <span class="page-link">Previous</span>
+                    </li>
+                    <li style="cursor:pointer" class="page-item @(currentPage == 0 || currentPage == 1 ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage-2))"><span class="page-link">@(currentPage - 1)</span></li>
+                    <li style="cursor:pointer" class="page-item @(currentPage == 0  ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage-1))"><span class="page-link">@(currentPage)</span></li>
+                    <li style="cursor:pointer" class="page-item active" @onclick="@(() => SelectedPage(currentPage))"><span class="page-link">@(currentPage + 1)</span></li>
+                    <li style="cursor:pointer" class="page-item @(currentPage == ((total-1)/pageSize)  ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+1))"><span class="page-link">@(currentPage + 2)</span></li>
+                    <li style="cursor:pointer" class="page-item @(currentPage == ((total-1)/pageSize) || currentPage == ((total-1)/pageSize)-1 ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+2))"><span class="page-link">@(currentPage + 3)</span></li>
+                    <li @onclick="@(() => Next())"
+                        style="cursor:pointer"
+                        class="page-item @(currentPage==((total-1)/pageSize) ? "disabled" : null) ">
+                        <span class="page-link">Next</span>
+                    </li>
+                </ul>
+            </nav>
         </div>
-        <div class="row align-items-start ">
-            <div class="col-1">
-                Name
-            </div>
-            <div class="col-1">
-                Address
-            </div>
-            <div class="col-2">
-                CompanyName
-            </div>
-            <div class="col-1">
-                Country
-            </div>
-            <div class="col-2">
-                Phone
-            </div>
-            <div class="col-1">
-                PostalCode
-            </div>
-            <div class="col-1">
-                Region
-            </div>
-            <div class="col-2">
-                City
-            </div>
-            <div class="col-1">
-                Controls
-            </div>
-        </div>
-        @foreach (var customer in Customers)
-        {
-            <div class="row  align-items-start">
-                <div class="col-1">
-                    @customer.ContactName
-                </div>
-                <div class="col-1">
-                    @customer.Address
-                </div>
-                <div class="col-2">
-                    @customer.CompanyName
-                </div>
-                <div class="col-1">
-                    @customer.Country
-                </div>
-                <div class="col-2">
-                    @customer.Phone
-                </div>
-                <div class="col-1">
-                    @customer.PostalCode
-                </div>
-                <div class="col-1">
-                    @customer.Region
-                </div>
-                <div class="col-2">
-                    @customer.City
-                </div>
-                <div class="col-1">
-                    <a href='/EditCustomer/@customer.Id'>Edit</a>
-                    <a href='/DeleteCustomer/@customer.Id'>Delete</a>
-                </div>
-            </div>
-
-        }
-        <label>TotalCustomers:@total</label><br />
-        <label>Page@(currentPage)/@((total / pageSize))</label>
-
-
-        <nav aria-label="Page navigation">
-            <ul class="pagination @(total <= pageSize ? "disabled" : null)">
-                <li @onclick="@(() => Previous())"
-                    style="cursor:pointer"
-                    class="page-item @(currentPage== 0 ? "disabled" : null) ">
-                    <span class="page-link">Previous</span>
-                </li>
-                @*<li style="cursor:pointer" class="page-item @(currentPage == 0 || currentPage == 1 ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage-1))"><span class="page-link">@(currentPage - 1)</span></li>
-                <li style="cursor:pointer" class="page-item @(currentPage == 0  ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage))"><span class="page-link">@(currentPage)</span></li>*@
-                <li style="cursor:pointer" class="page-item active" @onclick="@(() => SelectedPage(currentPage))"><span class="page-link">@(currentPage + 1)</span></li>
-                <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize)  ? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+2))"><span class="page-link">@(currentPage + 2)</span></li>
-                <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize) || currentPage == (total/pageSize)-1? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+3))"><span class="page-link">@(currentPage + 3)</span></li>
-                <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize) || currentPage == (total/pageSize)-1? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+4))"><span class="page-link">@(currentPage + 4)</span></li>
-                <li style="cursor:pointer" class="page-item @(currentPage == (total/pageSize) || currentPage == (total/pageSize)-1? "hidden" : null)" @onclick="@(() => SelectedPage(currentPage+5))"><span class="page-link">@(currentPage + 5)</span></li>
-                <li @onclick="@(() => Next())"
-                    style="cursor:pointer"
-                    class="page-item @(currentPage==(total/pageSize) ? "disabled" : null) ">
-                    <span class="page-link">Next</span>
-                </li>
-            </ul>
-        </nav>
     </div>
-    @*<table class="table table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ContactName</th>
-                    <th>Address</th>
-                    <th>CompanyName</th>
-                    <th>Country</th>
-                    <th>Phone</th>
-                    <th>PostalCode</th>
-                    <th>Region</th>
-                    <th>City</th>
-                    <th>Controls</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var customer in Customers)
-                {
-                <tr>
-                    <td>@customer.ContactName</td>
-                    <td>@customer.Address</td>
-                    <td>@customer.CompanyName</td>
-                    <td>@customer.Country</td>
-                    <td>@customer.Phone</td>
-                    <td>@customer.PostalCode</td>
-                    <td>@customer.Region</td>
-                    <td>@customer.City</td>
-                    <td>
-                        <a href='/EditCustomer/@customer.Id'>Edit</a>
-                        <a href='/DeleteCustomer/@customer.Id'>Delete</a>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>*@
+
 }
 
 @code {
@@ -153,18 +100,13 @@ else
     private List<Customer> Customers;
     private int currentPage = 0;
     private int pageSize = 10;
-    private long total = 0;    
+    private long total = 0;
     private string filterText = "";
 
     async Task LoadCustomers(int page = 0, int pageSize = 10, string filterText = "")
     {
         Customers = await CustomerService.GetPaged(page, pageSize,filterText);
-        
         total = await CustomerService.GetCustomerCount(filterText);
-        
-     
-
-
     }
 
 
@@ -172,32 +114,29 @@ else
     protected override async Task OnInitializedAsync()
     {
         await LoadCustomers(currentPage, pageSize,filterText);
-        //Customers = await CustomerService.GetPaged(0, pageSize);
-        //total = await CustomerService.GetCustomerCount();
-
     }
 
     private async Task Next()
     {
         currentPage++;
         await LoadCustomers(currentPage, pageSize,filterText);
-        //Customers = await CustomerService.GetPaged(currentPage, pageSize);
-
     }
 
     private async Task Previous()
     {
         currentPage--;
-        await LoadCustomers(currentPage, pageSize,filterText);
-        //Customers = await CustomerService.GetPaged(currentPage, pageSize);
+        await LoadCustomers(currentPage, pageSize,filterText);        
     }
 
     private async Task SelectedPage(int page)
     {
         currentPage = page;
         await LoadCustomers(currentPage, pageSize,filterText);
+    }
 
-
-
+    private async Task OnSearch(ChangeEventArgs args)
+    {        
+        filterText = args.Value.ToString();
+        await SelectedPage(0);
     }
 }
