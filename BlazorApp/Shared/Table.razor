@@ -1,0 +1,41 @@
+﻿<div class="table-responsive">
+    <table class="table  table-hover">
+        <thead class="thead-dark">
+            <tr>                
+                <th>ContactName</th>
+                <th>Address</th>
+                <th>CompanyName</th>
+                <th>Country</th>
+                <th>Phone</th>
+                <th>PostalCode</th>
+                <th>Region</th>
+                <th>City</th>
+                <th>Controls</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Customers)
+            {
+                <tr>                    
+                    <td>@customer.ContactName</td>
+                    <td>@customer.Address</td>
+                    <td>@customer.CompanyName</td>
+                    <td>@customer.Country</td>
+                    <td>@customer.Phone</td>
+                    <td>@customer.PostalCode</td>
+                    <td>@customer.Region</td>
+                    <td>@customer.City</td>
+                    <td>
+                        <a href='/EditCustomer/@customer.Id'><span class="oi oi-pencil text-dark"></span></a>
+                        <a href='/DeleteCustomer/@customer.Id'><span class="oi oi-trash text-dark"></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@code
+{
+    [Parameter] public List<Customer> Customers { get; set; }
+    
+}
