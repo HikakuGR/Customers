@@ -1,0 +1,74 @@
+﻿@typeparam Titem
+
+@if (List == null)
+{
+    @if (NullTemplate != null)
+    {
+        @NullTemplate
+    }
+    else
+    {
+        <img src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+    }
+
+}
+
+else if (List.Count == 0)
+{
+    @if (EmptyTemplate != null)
+    {
+        @EmptyTemplate
+    }
+    else
+    {
+        <span style="color:red">There are no records to show</span>
+    }
+}
+else
+{
+
+
+    <div class="table-responsive">
+        <table class="table  table-hover ">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ContactName</th>
+                    <th>Address</th>
+                    <th>CompanyName</th>
+                    <th>Country</th>
+                    <th>Phone</th>
+                    <th>PostalCode</th>
+                    <th>Region</th>
+                    <th>City</th>
+                    <th>Controls</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var element in List)
+                {
+                    @ElementTemplate(element)
+                    @*<tr>
+                        <td>@customer.ContactName</td>
+                        <td>@customer.Address</td>
+                        <td>@customer.CompanyName</td>
+                        <td>@customer.Country</td>
+                        <td>@customer.Phone</td>
+                        <td>@customer.PostalCode</td>
+                        <td>@customer.Region</td>
+                        <td>@customer.City</td>
+                        <td>
+                            <a href='/EditCustomer/@customer.Id'><span class="oi oi-pencil text-dark"></span></a>
+                            <a href='/DeleteCustomer/@customer.Id'><span class="oi oi-trash text-dark"></span></a>
+                        </td>
+                    </tr>*@
+                }
+            </tbody>
+        </table>
+    </div>
+}
+@code {
+    [Parameter] public RenderFragment EmptyTemplate { get; set; }
+    [Parameter] public RenderFragment NullTemplate { get; set; }
+    [Parameter] public RenderFragment<Titem> ElementTemplate { get; set; }
+    [Parameter] public List<Titem> List { get; set; }
+}

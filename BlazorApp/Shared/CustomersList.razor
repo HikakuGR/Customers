@@ -1,0 +1,13 @@
+﻿
+<GenericList List="Customers">
+    <ElementTemplate Context="customer">
+        <IndividualCustomer Customer="customer" />
+    </ElementTemplate>
+</GenericList>
+
+@code
+{
+    [Parameter] public List<Customer> Customers { get; set; }
+   
+    
+}

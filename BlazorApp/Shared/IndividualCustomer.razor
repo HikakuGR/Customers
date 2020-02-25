@@ -1,0 +1,17 @@
+﻿<tr>
+    <td>@Customer.ContactName</td>
+    <td>@Customer.Address</td>
+    <td>@Customer.CompanyName</td>
+    <td>@Customer.Country</td>
+    <td>@Customer.Phone</td>
+    <td>@Customer.PostalCode</td>
+    <td>@Customer.Region</td>
+    <td>@Customer.City</td>
+    <td>
+        <a href='/EditCustomer/@Customer.Id'><span class="oi oi-pencil text-dark"></span></a>
+        <a href='/DeleteCustomer/@Customer.Id'><span class="oi oi-trash text-dark"></span></a>
+    </td>
+</tr>
+@code {
+    [Parameter] public Customer Customer { get; set; }
+}
